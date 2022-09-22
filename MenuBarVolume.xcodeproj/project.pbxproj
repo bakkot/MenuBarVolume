@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0A1E8C8528DB984500CB0E14 /* MenuBarVolumeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E8C8428DB984500CB0E14 /* MenuBarVolumeApp.swift */; };
-		0A1E8C8728DB984500CB0E14 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E8C8628DB984500CB0E14 /* ContentView.swift */; };
 		0A1E8C8928DB984700CB0E14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A1E8C8828DB984700CB0E14 /* Assets.xcassets */; };
 		0A1E8C8C28DB984700CB0E14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A1E8C8B28DB984700CB0E14 /* Preview Assets.xcassets */; };
+		0A1E8CB028DC116400CB0E14 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E8CAF28DC116400CB0E14 /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,12 +33,12 @@
 /* Begin PBXFileReference section */
 		0A1E8C8128DB984500CB0E14 /* MenuBarVolume.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MenuBarVolume.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1E8C8428DB984500CB0E14 /* MenuBarVolumeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarVolumeApp.swift; sourceTree = "<group>"; };
-		0A1E8C8628DB984500CB0E14 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0A1E8C8828DB984700CB0E14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A1E8C8B28DB984700CB0E14 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A1E8C8D28DB984700CB0E14 /* MenuBarVolume.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MenuBarVolume.entitlements; sourceTree = "<group>"; };
 		0A1E8C9228DB984700CB0E14 /* MenuBarVolumeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MenuBarVolumeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1E8C9C28DB984700CB0E14 /* MenuBarVolumeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MenuBarVolumeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A1E8CAF28DC116400CB0E14 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,10 +88,10 @@
 			isa = PBXGroup;
 			children = (
 				0A1E8C8428DB984500CB0E14 /* MenuBarVolumeApp.swift */,
-				0A1E8C8628DB984500CB0E14 /* ContentView.swift */,
 				0A1E8C8828DB984700CB0E14 /* Assets.xcassets */,
 				0A1E8C8D28DB984700CB0E14 /* MenuBarVolume.entitlements */,
 				0A1E8C8A28DB984700CB0E14 /* Preview Content */,
+				0A1E8CAF28DC116400CB0E14 /* main.swift */,
 			);
 			path = MenuBarVolume;
 			sourceTree = "<group>";
@@ -234,7 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A1E8C8728DB984500CB0E14 /* ContentView.swift in Sources */,
+				0A1E8CB028DC116400CB0E14 /* main.swift in Sources */,
 				0A1E8C8528DB984500CB0E14 /* MenuBarVolumeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

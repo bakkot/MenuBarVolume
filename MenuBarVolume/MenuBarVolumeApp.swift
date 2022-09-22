@@ -1,24 +1,15 @@
-//
-//  MenuBarVolumeApp.swift
-//  MenuBarVolume
-//
-//  Created by Kevin on 9/21/22.
-//
-
-import SwiftUI
+import Cocoa
 import CoreAudio
 import AudioToolbox
 
 var alreadyListening: Set<AudioObjectID> = Set()
 
-@main
-struct MenuBarVolumeApp: App {
+class AppDelegate: NSObject, NSApplicationDelegate {
     func addListener(onAudioObjectID: AudioObjectID, forPropertyAddress: AudioObjectPropertyAddress, fn: @escaping (AudioObjectPropertyAddress) -> Void) {
         var fp = forPropertyAddress
         let listener = listenerFor(selector: fp.mSelector, fn: fn)
         let result = AudioObjectAddPropertyListenerBlock(onAudioObjectID, &fp, nil, listener)
         if (result != kAudioHardwareNoError) {
-            // TODO something better than that
             print("Error calling AudioObjectAddPropertyListenerBlock")
         }
     }
@@ -86,6 +77,11 @@ struct MenuBarVolumeApp: App {
     }
     
     func addVolumeListenerForDevice(deviceID: AudioObjectID) {
+        if (alreadyListening.contains(deviceID)) {
+            print("already listening for volume changes for \(deviceID)")
+            return
+        }
+
         print("adding listener for \(deviceID)")
         alreadyListening.insert(deviceID)
 
@@ -135,64 +131,49 @@ struct MenuBarVolumeApp: App {
     
     func onDeviceChange(prop: AudioObjectPropertyAddress) {
         let deviceID = getDefaultAudioOutputDevice()
-        if (alreadyListening.contains(deviceID)) {
-            print("already listening for volume changes for \(deviceID)")
-        } else {
-            addVolumeListenerForDevice(deviceID: deviceID)
-        }
-        volumeChanged() // update UI
+        addVolumeListenerForDevice(deviceID: deviceID)
+        updateIcon()
     }
     
     func onVolumeChange(prop: AudioObjectPropertyAddress) {
-        volumeChanged()
+        updateIcon()
     }
     
-    func volumeChanged() {
+    func updateIcon() {
         let deviceID = getDefaultAudioOutputDevice()
-        print("xx kAudioHardwarePropertyDefaultOutputDevice: \(deviceID)")
+        print("kAudioHardwarePropertyDefaultOutputDevice: \(deviceID)")
         let volume = getDeviceVolume(deviceID: deviceID)
-        print("xx volume: \(volume)")
+        print("volume: \(volume)")
 
+        var image: NSImage
+        if (volume == 0) {
+            let config = NSImage.SymbolConfiguration(paletteColors: [.black, .gray])
+            image = NSImage(systemSymbolName: "speaker.slash.fill", accessibilityDescription: "mute")!.withSymbolConfiguration(config)!
+        } else if (volume < 0.33) {
+            image = NSImage(systemSymbolName: "speaker.wave.1.fill", accessibilityDescription: "volume 33%")!
+        } else if (volume < 0.66) {
+            image = NSImage(systemSymbolName: "speaker.wave.2.fill", accessibilityDescription: "volume 66%")!
+        } else {
+            image = NSImage(systemSymbolName: "speaker.wave.3.fill", accessibilityDescription: "volume 100%")!
+        }
         DispatchQueue.main.async {
-            var image: NSImage
-            if (volume == 0) {
-                let config = NSImage.SymbolConfiguration(paletteColors: [.black, .gray])
-                image = NSImage(systemSymbolName: "speaker.slash.fill", accessibilityDescription: "mute")!.withSymbolConfiguration(config)!
-            } else if (volume < 0.33) {
-                image = NSImage(systemSymbolName: "speaker.wave.1.fill", accessibilityDescription: "volume 33%")!
-            } else if (volume < 0.66) {
-                image = NSImage(systemSymbolName: "speaker.wave.2.fill", accessibilityDescription: "volume 66%")!
-            } else {
-                image = NSImage(systemSymbolName: "speaker.wave.3.fill", accessibilityDescription: "volume 100%")!
-            }
             self.statusItem.button?.image = image
         }
     }
     
-    @State var statusItem: NSStatusItem
-    init() {
-        let contentView = VStack {
-            Text("Test Text")
-            Spacer()
-            HStack {
-                Text("Test Text")
-                Text("Test Text")
-            }
-            Spacer()
-            Text("Test Text")
-        }
+    private var statusItem: NSStatusItem!
+    
+    @IBAction func openURL(_ sender: AnyObject) {
+        let url = URL(string: "https://www.example.com/test")!
+        NSWorkspace.shared.open(url)
+    }
 
-        let view = NSHostingView(rootView: contentView)
-
-        // Don't forget to set the frame, otherwise it won't be shown.
-        view.frame = NSRect(x: 0, y: 0, width: 200, height: 200)
-                
-        let menuItem = NSMenuItem()
-        menuItem.view = view
-                
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         let menu = NSMenu()
-        menu.addItem(menuItem)
-                
+        menu.addItem(NSMenuItem(title: "About MenuBarVolume", action: #selector(openURL), keyEquivalent: ""))
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+
         self.statusItem = NSStatusBar.system.statusItem(withLength: 18)
         self.statusItem.menu = menu
         self.statusItem.button?.imagePosition = NSControl.ImagePosition.imageRight
@@ -207,19 +188,9 @@ struct MenuBarVolumeApp: App {
             fn: onDeviceChange
         )
         
-        // TODO handle muting
-        
         // add listener for current device
         let mainDevice = getDefaultAudioOutputDevice()
         addVolumeListenerForDevice(deviceID: mainDevice)
-        volumeChanged()
-    }
-    
-    var body: some Scene {
-        WindowGroup {
-            ZStack{
-                EmptyView()
-            }.hidden()
-        }
+        updateIcon()
     }
 }
