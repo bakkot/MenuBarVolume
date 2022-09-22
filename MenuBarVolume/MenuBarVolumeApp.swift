@@ -164,7 +164,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     
     @IBAction func openURL(_ sender: AnyObject) {
-        let url = URL(string: "https://www.example.com/test")!
+        let url = URL(string: "https://github.com/bakkot/MenuBarVolume")!
         NSWorkspace.shared.open(url)
     }
 
