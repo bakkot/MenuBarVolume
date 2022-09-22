@@ -13,50 +13,17 @@
 		0A1E8CB028DC116400CB0E14 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E8CAF28DC116400CB0E14 /* main.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		0A1E8C9328DB984700CB0E14 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A1E8C7928DB984500CB0E14 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A1E8C8028DB984500CB0E14;
-			remoteInfo = MenuBarVolume;
-		};
-		0A1E8C9D28DB984700CB0E14 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A1E8C7928DB984500CB0E14 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A1E8C8028DB984500CB0E14;
-			remoteInfo = MenuBarVolume;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		0A1E8C8128DB984500CB0E14 /* MenuBarVolume.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MenuBarVolume.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1E8C8428DB984500CB0E14 /* MenuBarVolumeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarVolumeApp.swift; sourceTree = "<group>"; };
 		0A1E8C8828DB984700CB0E14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A1E8C8B28DB984700CB0E14 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A1E8C8D28DB984700CB0E14 /* MenuBarVolume.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MenuBarVolume.entitlements; sourceTree = "<group>"; };
-		0A1E8C9228DB984700CB0E14 /* MenuBarVolumeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MenuBarVolumeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A1E8C9C28DB984700CB0E14 /* MenuBarVolumeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MenuBarVolumeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1E8CAF28DC116400CB0E14 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		0A1E8C7E28DB984500CB0E14 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A1E8C8F28DB984700CB0E14 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A1E8C9928DB984700CB0E14 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -78,8 +45,6 @@
 			isa = PBXGroup;
 			children = (
 				0A1E8C8128DB984500CB0E14 /* MenuBarVolume.app */,
-				0A1E8C9228DB984700CB0E14 /* MenuBarVolumeTests.xctest */,
-				0A1E8C9C28DB984700CB0E14 /* MenuBarVolumeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,42 +89,6 @@
 			productReference = 0A1E8C8128DB984500CB0E14 /* MenuBarVolume.app */;
 			productType = "com.apple.product-type.application";
 		};
-		0A1E8C9128DB984700CB0E14 /* MenuBarVolumeTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0A1E8CA928DB984700CB0E14 /* Build configuration list for PBXNativeTarget "MenuBarVolumeTests" */;
-			buildPhases = (
-				0A1E8C8E28DB984700CB0E14 /* Sources */,
-				0A1E8C8F28DB984700CB0E14 /* Frameworks */,
-				0A1E8C9028DB984700CB0E14 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0A1E8C9428DB984700CB0E14 /* PBXTargetDependency */,
-			);
-			name = MenuBarVolumeTests;
-			productName = MenuBarVolumeTests;
-			productReference = 0A1E8C9228DB984700CB0E14 /* MenuBarVolumeTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		0A1E8C9B28DB984700CB0E14 /* MenuBarVolumeUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0A1E8CAC28DB984700CB0E14 /* Build configuration list for PBXNativeTarget "MenuBarVolumeUITests" */;
-			buildPhases = (
-				0A1E8C9828DB984700CB0E14 /* Sources */,
-				0A1E8C9928DB984700CB0E14 /* Frameworks */,
-				0A1E8C9A28DB984700CB0E14 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0A1E8C9E28DB984700CB0E14 /* PBXTargetDependency */,
-			);
-			name = MenuBarVolumeUITests;
-			productName = MenuBarVolumeUITests;
-			productReference = 0A1E8C9C28DB984700CB0E14 /* MenuBarVolumeUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -172,14 +101,6 @@
 				TargetAttributes = {
 					0A1E8C8028DB984500CB0E14 = {
 						CreatedOnToolsVersion = 14.0;
-					};
-					0A1E8C9128DB984700CB0E14 = {
-						CreatedOnToolsVersion = 14.0;
-						TestTargetID = 0A1E8C8028DB984500CB0E14;
-					};
-					0A1E8C9B28DB984700CB0E14 = {
-						CreatedOnToolsVersion = 14.0;
-						TestTargetID = 0A1E8C8028DB984500CB0E14;
 					};
 				};
 			};
@@ -197,8 +118,6 @@
 			projectRoot = "";
 			targets = (
 				0A1E8C8028DB984500CB0E14 /* MenuBarVolume */,
-				0A1E8C9128DB984700CB0E14 /* MenuBarVolumeTests */,
-				0A1E8C9B28DB984700CB0E14 /* MenuBarVolumeUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -210,20 +129,6 @@
 			files = (
 				0A1E8C8C28DB984700CB0E14 /* Preview Assets.xcassets in Resources */,
 				0A1E8C8928DB984700CB0E14 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A1E8C9028DB984700CB0E14 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A1E8C9A28DB984700CB0E14 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,34 +144,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0A1E8C8E28DB984700CB0E14 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A1E8C9828DB984700CB0E14 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		0A1E8C9428DB984700CB0E14 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0A1E8C8028DB984500CB0E14 /* MenuBarVolume */;
-			targetProxy = 0A1E8C9328DB984700CB0E14 /* PBXContainerItemProxy */;
-		};
-		0A1E8C9E28DB984700CB0E14 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0A1E8C8028DB984500CB0E14 /* MenuBarVolume */;
-			targetProxy = 0A1E8C9D28DB984700CB0E14 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0A1E8CA428DB984700CB0E14 /* Debug */ = {
@@ -394,11 +272,13 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MenuBarVolume/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkot.MenuBarVolume;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -419,84 +299,18 @@
 				DEVELOPMENT_ASSET_PATHS = "\"MenuBarVolume/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkot.MenuBarVolume;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		0A1E8CAA28DB984700CB0E14 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkot.MenuBarVolumeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MenuBarVolume.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MenuBarVolume";
-			};
-			name = Debug;
-		};
-		0A1E8CAB28DB984700CB0E14 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkot.MenuBarVolumeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MenuBarVolume.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MenuBarVolume";
-			};
-			name = Release;
-		};
-		0A1E8CAD28DB984700CB0E14 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkot.MenuBarVolumeUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = MenuBarVolume;
-			};
-			name = Debug;
-		};
-		0A1E8CAE28DB984700CB0E14 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkot.MenuBarVolumeUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = MenuBarVolume;
 			};
 			name = Release;
 		};
@@ -517,24 +331,6 @@
 			buildConfigurations = (
 				0A1E8CA728DB984700CB0E14 /* Debug */,
 				0A1E8CA828DB984700CB0E14 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0A1E8CA928DB984700CB0E14 /* Build configuration list for PBXNativeTarget "MenuBarVolumeTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0A1E8CAA28DB984700CB0E14 /* Debug */,
-				0A1E8CAB28DB984700CB0E14 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0A1E8CAC28DB984700CB0E14 /* Build configuration list for PBXNativeTarget "MenuBarVolumeUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0A1E8CAD28DB984700CB0E14 /* Debug */,
-				0A1E8CAE28DB984700CB0E14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
