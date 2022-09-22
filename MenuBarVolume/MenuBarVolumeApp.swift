@@ -22,7 +22,7 @@ struct MenuBarVolumeApp: App {
             print("Error calling AudioObjectAddPropertyListenerBlock")
         }
     }
-
+    
     func listenerFor(selector: AudioObjectPropertySelector, fn: @escaping (AudioObjectPropertyAddress) -> Void) -> AudioObjectPropertyListenerBlock {
         func propertyChangedListener(numberAddresses: UInt32, propertyAddresses: UnsafePointer<AudioObjectPropertyAddress>) {
             // print("listener: got \(numberAddresses) property addresses")
@@ -41,7 +41,7 @@ struct MenuBarVolumeApp: App {
         }
         return propertyChangedListener
     }
-
+    
     func getDefaultAudioOutputDevice() -> AudioObjectID {
         var devicePropertyAddress = AudioObjectPropertyAddress(mSelector: kAudioHardwarePropertyDefaultOutputDevice, mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
         var deviceID: AudioObjectID = 0
@@ -56,14 +56,28 @@ struct MenuBarVolumeApp: App {
     }
     
     func getDeviceVolume(deviceID: AudioObjectID) -> Float32 {
+        var muted = UInt32()
+        var mutedSize = UInt32(MemoryLayout.size(ofValue: muted))
+        var mutedPropertyAddress = AudioObjectPropertyAddress(
+            mSelector: kAudioDevicePropertyMute,
+            mScope: kAudioDevicePropertyScopeOutput,
+            mElement: kAudioObjectPropertyElementMain)
+        let mutedResult = AudioObjectGetPropertyData(deviceID, &mutedPropertyAddress, 0, nil, &mutedSize, &muted)
+        if (mutedResult != kAudioHardwareNoError) {
+            print("Error getting device volume")
+        }
+        if (muted == 1) {
+            return 0.0
+        }
+        
         var volume = Float32(0.0)
         var volumeSize = UInt32(MemoryLayout.size(ofValue: volume))
-
+        
         var volumePropertyAddress = AudioObjectPropertyAddress(
             mSelector: kAudioHardwareServiceDeviceProperty_VirtualMainVolume,
             mScope: kAudioDevicePropertyScopeOutput,
             mElement: kAudioObjectPropertyElementMain)
-
+        
         let result = AudioObjectGetPropertyData(deviceID, &volumePropertyAddress, 0, nil, &volumeSize, &volume)
         if (result != kAudioHardwareNoError) {
             print("Error getting device volume")
@@ -74,6 +88,17 @@ struct MenuBarVolumeApp: App {
     func addVolumeListenerForDevice(deviceID: AudioObjectID) {
         print("adding listener for \(deviceID)")
         alreadyListening.insert(deviceID)
+
+        let muteListener = AudioObjectPropertyAddress(
+            mSelector: kAudioDevicePropertyMute,
+            mScope: kAudioObjectPropertyScopeOutput,
+            mElement: kAudioObjectPropertyElementMain)
+        addListener(
+            onAudioObjectID: deviceID,
+            forPropertyAddress: muteListener,
+            fn: onVolumeChange
+        )
+
         // we can query kAudioHardwareServiceDeviceProperty_VirtualMainVolume, but not listen to it
         // so we want to listen to the main channel if it's available, otherwise the left and right channels
         var mainChannelVolumeProperty = AudioObjectPropertyAddress(
@@ -107,26 +132,72 @@ struct MenuBarVolumeApp: App {
             )
         }
     }
-
-
+    
     func onDeviceChange(prop: AudioObjectPropertyAddress) {
         let deviceID = getDefaultAudioOutputDevice()
         if (alreadyListening.contains(deviceID)) {
             print("already listening for volume changes for \(deviceID)")
-            return
+        } else {
+            addVolumeListenerForDevice(deviceID: deviceID)
         }
-        addVolumeListenerForDevice(deviceID: deviceID)
+        volumeChanged() // update UI
     }
-
+    
     func onVolumeChange(prop: AudioObjectPropertyAddress) {
+        volumeChanged()
+    }
+    
+    func volumeChanged() {
         let deviceID = getDefaultAudioOutputDevice()
         print("xx kAudioHardwarePropertyDefaultOutputDevice: \(deviceID)")
-        print("xx volume: \(getDeviceVolume(deviceID: deviceID))")
+        let volume = getDeviceVolume(deviceID: deviceID)
+        print("xx volume: \(volume)")
+
+        DispatchQueue.main.async {
+            var image: NSImage
+            if (volume == 0) {
+                let config = NSImage.SymbolConfiguration(paletteColors: [.black, .gray])
+                image = NSImage(systemSymbolName: "speaker.slash.fill", accessibilityDescription: "mute")!.withSymbolConfiguration(config)!
+            } else if (volume < 0.33) {
+                image = NSImage(systemSymbolName: "speaker.wave.1.fill", accessibilityDescription: "volume 33%")!
+            } else if (volume < 0.66) {
+                image = NSImage(systemSymbolName: "speaker.wave.2.fill", accessibilityDescription: "volume 66%")!
+            } else {
+                image = NSImage(systemSymbolName: "speaker.wave.3.fill", accessibilityDescription: "volume 100%")!
+            }
+            self.statusItem.button?.image = image
+        }
     }
-
+    
+    @State var statusItem: NSStatusItem
     init() {
-        // add listener for default audio device changing
+        let contentView = VStack {
+            Text("Test Text")
+            Spacer()
+            HStack {
+                Text("Test Text")
+                Text("Test Text")
+            }
+            Spacer()
+            Text("Test Text")
+        }
 
+        let view = NSHostingView(rootView: contentView)
+
+        // Don't forget to set the frame, otherwise it won't be shown.
+        view.frame = NSRect(x: 0, y: 0, width: 200, height: 200)
+                
+        let menuItem = NSMenuItem()
+        menuItem.view = view
+                
+        let menu = NSMenu()
+        menu.addItem(menuItem)
+                
+        self.statusItem = NSStatusBar.system.statusItem(withLength: 18)
+        self.statusItem.menu = menu
+        self.statusItem.button?.imagePosition = NSControl.ImagePosition.imageRight
+
+        // add listener for default audio device changing
         addListener(
             onAudioObjectID: AudioObjectID(bitPattern: kAudioObjectSystemObject),
             forPropertyAddress: AudioObjectPropertyAddress(
@@ -136,14 +207,19 @@ struct MenuBarVolumeApp: App {
             fn: onDeviceChange
         )
         
+        // TODO handle muting
+        
         // add listener for current device
         let mainDevice = getDefaultAudioOutputDevice()
         addVolumeListenerForDevice(deviceID: mainDevice)
+        volumeChanged()
     }
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ZStack{
+                EmptyView()
+            }.hidden()
         }
     }
 }
