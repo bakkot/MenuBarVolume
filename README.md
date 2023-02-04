@@ -1,6 +1,6 @@
 # MenuBarVolume
 
-A persistent volume indicator in your menu bar for macOS Monterey (12).
+A persistent volume indicator in your menu bar for macOS Monterey (12) and subsequent versions.
 
 ## Why?
 
