@@ -24,7 +24,7 @@ You will probably need to right-click and "open" this to bypass Gatekeeper.
 
 ## Building
 
-This repo contains the XCode project files I used. You probably need XCode 14, since that's what I used.
+This repo contains the XCode project files I used. You probably need XCode 14 (or later), since that's what I used.
 
 ### A note on running as an agent
 
@@ -34,6 +34,6 @@ To get the app to launch without an icon in the doc, you need to set
 <key>LSUIElement</key>
 <true/>
 ```
-in the app's `Info.plist`. Unfortunately, recent versions of XCode don't generate this file. You are supposedly able to set properties by going to the "Info" page for the target and adding your property, but I did this and it didn't cause the actual `plist` file in the app to contain the key. I don't know if I'm doing something wrong or this is a bug.
+in the app's `Info.plist`. You are supposedly able to set properties by going to the "Info" page for the target and adding your property, but this only worked on some versions of XCode for me.
 
 Regardless, I worked around this by manually editing the `plist` and then re-signing with `sudo codesign -f -s -  MenuBarVolume.app`.
