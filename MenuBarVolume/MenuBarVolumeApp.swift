@@ -147,8 +147,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         var image: NSImage
         if (volume == 0) {
-            let config = NSImage.SymbolConfiguration(paletteColors: [.black, .gray])
-            image = NSImage(systemSymbolName: "speaker.slash.fill", accessibilityDescription: "mute")!.withSymbolConfiguration(config)!
+            image = NSImage(systemSymbolName: "speaker.slash.fill", accessibilityDescription: "mute")!
+        } else if #available(macOS 13.0, *) {
+            image = NSImage(systemSymbolName: "speaker.wave.3.fill", variableValue: Double(volume), accessibilityDescription: "volume \(volume * 100)%")!
         } else if (volume < 0.33) {
             image = NSImage(systemSymbolName: "speaker.wave.1.fill", accessibilityDescription: "volume 33%")!
         } else if (volume < 0.66) {
