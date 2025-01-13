@@ -4,7 +4,21 @@ import AudioToolbox
 
 var alreadyListening: Set<AudioObjectID> = Set()
 
+extension UserDefaults {
+    @objc dynamic var showPercentage: Bool {
+        get {
+            return bool(forKey: "showPercentage")
+        }
+        set {
+            set(newValue, forKey: "showPercentage")
+        }
+    }
+}
+
 class AppDelegate: NSObject, NSApplicationDelegate {
+    private var showPercentage: Bool = UserDefaults.standard.showPercentage
+    private var showPercentageMenuItem: NSMenuItem!
+
     func addListener(onAudioObjectID: AudioObjectID, forPropertyAddress: AudioObjectPropertyAddress, fn: @escaping (AudioObjectPropertyAddress) -> Void) {
         var fp = forPropertyAddress
         let listener = listenerFor(selector: fp.mSelector, fn: fn)
@@ -158,6 +172,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             image = NSImage(systemSymbolName: "speaker.wave.3.fill", accessibilityDescription: "volume 100%")!
         }
         DispatchQueue.main.async {
+            if (self.showPercentage) {
+                let volumeText = String(format: "%.0f%%", volume * 100)
+                let attributes: [NSAttributedString.Key: Any] = [
+                    .font: NSFont.menuBarFont(ofSize: 11) // Claude claims this is what Apple uses for theirs
+                ]
+                let attributedString = NSAttributedString(string: volumeText, attributes: attributes)
+                self.statusItem.button?.attributedTitle = attributedString
+            } else {
+                self.statusItem.button?.attributedTitle = NSAttributedString(string: "")
+            }
             self.statusItem.button?.image = image
         }
     }
@@ -169,13 +193,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared.open(url)
     }
 
+    @objc func toggleShowPercentage() {
+        showPercentage = !showPercentage
+        UserDefaults.standard.showPercentage = showPercentage
+        showPercentageMenuItem.state = showPercentage ? .on : .off
+        updateIcon()
+    }
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let menu = NSMenu()
+
         menu.addItem(NSMenuItem(title: "About MenuBarVolume", action: #selector(openURL), keyEquivalent: ""))
+
+        menu.addItem(NSMenuItem.separator())
+        showPercentageMenuItem = NSMenuItem(
+            title: "Show Percentage",
+            action: #selector(toggleShowPercentage),
+            keyEquivalent: "")
+        showPercentageMenuItem.state = showPercentage ? .on : .off
+        menu.addItem(showPercentageMenuItem)
+
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
 
-        self.statusItem = NSStatusBar.system.statusItem(withLength: 18)
+        self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         self.statusItem.menu = menu
         self.statusItem.button?.imagePosition = NSControl.ImagePosition.imageRight
 

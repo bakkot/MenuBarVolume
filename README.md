@@ -10,6 +10,8 @@ This app, when launched, adds an additional icon in the menu bar which has the o
 
 <img src="screenshot.png"/>
 
+There's also an off-by-default toggle to show the exact percentage as well.
+
 ## Setting expectations
 
 This is the first Mac app I've made. It's simple, and works for me, but I can't promise it'll work for you.
