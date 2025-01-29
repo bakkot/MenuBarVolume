@@ -195,7 +195,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             self.statusItem.button?.image = image
             self.statusItem.button?.image = self.showIcon ? image : nil
-            
+
             // avoid the possibility of disabling both
             self.showPercentageMenuItem.isEnabled = self.showIcon
             self.showIconMenuItem.isEnabled = self.showPercentage
