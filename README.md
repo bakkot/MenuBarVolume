@@ -10,7 +10,11 @@ This app, when launched, adds an additional icon in the menu bar which has the o
 
 <img src="screenshot.png"/>
 
-There's also an off-by-default toggle to show the exact percentage as well.
+There are also off-by-default toggles to show the exact percentage in addition to or instead of the icon.
+
+<img src="screenshot-both.png"/>
+
+<img src="screenshot-percentage.png"/>
 
 ## Setting expectations
 

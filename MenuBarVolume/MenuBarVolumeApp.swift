@@ -13,11 +13,22 @@ extension UserDefaults {
             set(newValue, forKey: "showPercentage")
         }
     }
+    @objc dynamic var showIcon: Bool {
+        get {
+            return bool(forKey: "showIcon") || !bool(forKey: "showIconKeyExists")
+        }
+        set {
+            set(newValue, forKey: "showIcon")
+            set(true, forKey: "showIconKeyExists")
+        }
+    }
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var showPercentage: Bool = UserDefaults.standard.showPercentage
+    private var showIcon: Bool = UserDefaults.standard.showIcon
     private var showPercentageMenuItem: NSMenuItem!
+    private var showIconMenuItem: NSMenuItem!
 
     func addListener(onAudioObjectID: AudioObjectID, forPropertyAddress: AudioObjectPropertyAddress, fn: @escaping (AudioObjectPropertyAddress) -> Void) {
         var fp = forPropertyAddress
@@ -183,6 +194,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.statusItem.button?.attributedTitle = NSAttributedString(string: "")
             }
             self.statusItem.button?.image = image
+            self.statusItem.button?.image = self.showIcon ? image : nil
+            
+            // avoid the possibility of disabling both
+            self.showPercentageMenuItem.isEnabled = self.showIcon
+            self.showIconMenuItem.isEnabled = self.showPercentage
         }
     }
     
@@ -200,8 +216,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateIcon()
     }
 
+    @objc func toggleShowIcon() {
+        showIcon = !showIcon
+        UserDefaults.standard.showIcon = showIcon
+        showIconMenuItem.state = showIcon ? .on : .off
+        updateIcon()
+    }
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let menu = NSMenu()
+        menu.autoenablesItems = false
 
         menu.addItem(NSMenuItem(title: "About MenuBarVolume", action: #selector(openURL), keyEquivalent: ""))
 
@@ -212,6 +236,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             keyEquivalent: "")
         showPercentageMenuItem.state = showPercentage ? .on : .off
         menu.addItem(showPercentageMenuItem)
+        showIconMenuItem = NSMenuItem(
+            title: "Show Icon",
+            action: #selector(toggleShowIcon),
+            keyEquivalent: "")
+        showIconMenuItem.state = showIcon ? .on : .off
+        menu.addItem(showIconMenuItem)
 
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
