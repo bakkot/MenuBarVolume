@@ -121,8 +121,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
 
         // we can query kAudioHardwareServiceDeviceProperty_VirtualMainVolume, but not listen to it
-        // so we want to listen to the main channel if it's available, otherwise the left and right channels
-        var mainChannelVolumeProperty = AudioObjectPropertyAddress(
+        // also sometimes devices change whether they have a main volmue
+        // (e.g. starting to listen to the mic on bluetooth headphones)
+        // so just listen to all three, I guess
+        let mainChannelVolumeProperty = AudioObjectPropertyAddress(
             mSelector: kAudioDevicePropertyVolumeScalar,
             mScope: kAudioObjectPropertyScopeOutput,
             mElement: kAudioObjectPropertyElementMain)
@@ -134,25 +136,54 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             mSelector: kAudioDevicePropertyVolumeScalar,
             mScope: kAudioObjectPropertyScopeOutput,
             mElement: 2) // 2 is right channel, apparently
-        if (AudioObjectHasProperty(deviceID, &mainChannelVolumeProperty)) {
-            addListener(
-                onAudioObjectID: deviceID,
-                forPropertyAddress: mainChannelVolumeProperty,
-                fn: onVolumeChange
-            )
-        } else {
-            addListener(
-                onAudioObjectID: deviceID,
-                forPropertyAddress: leftChannelVolumeProperty,
-                fn: onVolumeChange
-            )
-            addListener(
-                onAudioObjectID: deviceID,
-                forPropertyAddress: rightChannelVolumeProperty,
-                fn: onVolumeChange
-            )
+        addListener(
+            onAudioObjectID: deviceID,
+            forPropertyAddress: mainChannelVolumeProperty,
+            fn: onVolumeChange
+        )
+        addListener(
+            onAudioObjectID: deviceID,
+            forPropertyAddress: leftChannelVolumeProperty,
+            fn: onVolumeChange
+        )
+        addListener(
+            onAudioObjectID: deviceID,
+            forPropertyAddress: rightChannelVolumeProperty,
+            fn: onVolumeChange
+        )
+    }
+
+    func fourCharCodeToString(_ code: UInt32) -> String {
+        return String(format: "%c%c%c%c",
+            (code >> 24) & 0xFF,
+            (code >> 16) & 0xFF,
+            (code >> 8) & 0xFF,
+            code & 0xFF)
+    }
+
+    func debugListAllPropertyChanges(deviceID: AudioObjectID) {
+        let listener: AudioObjectPropertyListenerBlock = { (inNumberAddresses, inAddresses) in
+            let addresses = UnsafeBufferPointer(start: inAddresses, count: Int(inNumberAddresses))
+            for address in addresses {
+                print("Property changed:")
+                print("  Selector: \(self.fourCharCodeToString(address.mSelector)) (\(address.mSelector))")
+                print("  Scope: \(self.fourCharCodeToString(address.mScope)) (\(address.mScope))")
+                print("  Element: \(address.mElement)")
+            }
+            print("------")
+        }
+
+        var address = AudioObjectPropertyAddress(
+            mSelector: kAudioObjectPropertySelectorWildcard,
+            mScope: kAudioObjectPropertyScopeWildcard,
+            mElement: kAudioObjectPropertyElementWildcard)
+
+        let result = AudioObjectAddPropertyListenerBlock(deviceID, &address, nil, listener)
+        if result != kAudioHardwareNoError {
+            print("Error setting up debug listener: \(result)")
         }
     }
+
     
     func onDeviceChange(prop: AudioObjectPropertyAddress) {
         let deviceID = getDefaultAudioOutputDevice()
@@ -263,6 +294,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // add listener for current device
         let mainDevice = getDefaultAudioOutputDevice()
         addVolumeListenerForDevice(deviceID: mainDevice)
+
+        // debugListAllPropertyChanges(deviceID: mainDevice)
         updateIcon()
     }
 }
